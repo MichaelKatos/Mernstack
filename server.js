@@ -1,6 +1,7 @@
 // Import Express and create app variable to use express
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 // Importing Routes
 const users = require('./routes/api/users');
@@ -9,6 +10,10 @@ const posts = require('./routes/api/posts');
 
 const app = express();
 
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
+app.use(bodyParser.json());
 
 // DB config
 const db = require('./config/keys').mongoURI;
