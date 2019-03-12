@@ -13,5 +13,6 @@
 // console.log(client);
 
 module.exports = {
-  mongoURI: "mongodb+srv://Main:Wagner13@playingthefield-emjet.mongodb.net/test?retryWrites=true"
+  mongoURI: "mongodb+srv://Main:Wagner13@playingthefield-emjet.mongodb.net/test?retryWrites=true",
+  secretOrKey: 'Majiik'
 };
