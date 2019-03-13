@@ -4,10 +4,14 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const validator = require('validator');
 
+//Load Validation For Profile
+const validateProfileInput = require('../../validation/profile');
+
 //Load Profile Model
 const Profile = require('../../models/Profile');
 //Load User Profile
 const User = require('../../models/User');
+
 
 // @route GET api/profile/test
 // @desc  tests profile route
@@ -40,9 +44,16 @@ router.get('/', passport.authenticate('jwt', {
 // @route POST api/profile
 // @desc  Create user profile
 // @access Private
-router.get('/', passport.authenticate('jwt', {
+router.post('/', passport.authenticate('jwt', {
   session: false
 }), (req, res) => {
+  const { errors, isValid } = validateProfileInput(req.body);
+
+  // Check Validation
+  if(!isValid) {
+    // Return any errors with 400 status
+    return res.status(400).json(errors);
+  }
   // Get fields
   const profileFields = {};
   profileFields.user = req.user.id;
