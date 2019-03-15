@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const moment = require('moment');
 
 // Create Schema
 const UserSchema = new Schema({
@@ -15,12 +16,17 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  avatar: {
-    type: String
+  dob: {
+    type: Date,
+    required: true
   },
   date: {
     type: Date,
-    default: Date.now
+    default: moment().format('LLLL')
+  },
+  locale: {
+    type: String,
+    default: moment().locale()
   }
 });
 

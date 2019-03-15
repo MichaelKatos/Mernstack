@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const moment = require('moment');
 
 // Create Profile Schema
 const ProfileSchema = new Schema({
@@ -105,7 +106,11 @@ const ProfileSchema = new Schema({
   },
   date: {
     type: Date,
-    default: Date.now
+    default: moment().format('LLLL')
+  },
+  locale: {
+    type: String,
+    default: moment().locale()
   }
 });
 
