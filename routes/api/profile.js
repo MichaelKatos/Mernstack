@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
 const validator = require('validator');
+const cors = require('cors');
 
 //Load Validation For Profile
 const validateProfileInput = require('../../validation/profile');
@@ -87,6 +88,47 @@ router.get('/user/:user_id', passport.authenticate('jwt', {
       profile: 'There is no profile for this user'
     }));
 });
+
+// @route GET api/profile/all
+// @desc  Get all profiles
+// @access Private
+router.get('/all', passport.authenticate('jwt', {
+  session: false
+}), (req, res) => {
+  const errors = {};
+
+  Profile.find()
+    .populate('user', ['name', 'avatar', 'email'])
+    .then(profiles => {
+      if (!profiles) {
+        errors.noprofile = 'There are no profiles';
+        return res.status(404).json(errors);
+      }
+
+      res.json(profiles);
+    })
+    .catch(err => res.status(404).json({
+      profiles: 'There are no profiles'
+    }));
+});
+
+
+router.get('/find/:query', cors(), (req, res) => {
+  var query = req.params.query;
+  const errors = {};
+
+  Profile.find({
+    'request': query
+  }, (err, result) => {
+    if (err) throw err;
+    if (result) {
+      res.json(result);
+    } else {
+      res.status(404);
+    }
+  });
+});
+
 
 // @route POST api/profile
 // @desc  Create user profile
