@@ -169,7 +169,7 @@ router.post('/', passport.authenticate('jwt', {
   if (req.body.linkedin) profileFields.social.linkedin = req.body.linkedin;
 
   Profile.findOne({
-      user: req.body.id
+      user: req.user.id
     })
     .then(profile => {
       if (profile) {
@@ -181,7 +181,8 @@ router.post('/', passport.authenticate('jwt', {
           }, {
             new: true
           })
-          .then(profile => res.json(profile));
+          .then(profile => res.json(profile))
+          .catch(err => console.log(err));
       } else {
         // Create Profile
 
@@ -196,8 +197,9 @@ router.post('/', passport.authenticate('jwt', {
             }
 
             // Save Profile
-            new Profile(profileFields).save().then(profile => res.json(profile));
-          });
+            new Profile(profileFields).save().then(profile => res.json(profile)).catch(err => console.log(err));
+          })
+          .catch(err => console.log(err));
       }
     });
 });

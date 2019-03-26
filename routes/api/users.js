@@ -50,7 +50,8 @@ router.post('/register', (req, res) => {
           name: req.body.name,
           email: req.body.email,
           avatar,
-          password: req.body.password
+          password: req.body.password,
+          dob: req.body.dob
         });
 
         //Encrypt Password
@@ -109,7 +110,7 @@ router.post('/login', (req, res) => {
           jwt.sign(
             payload,
             keys.secretOrKey, {
-              expiresIn: 3600
+              expiresIn: 180
             },
             (err, token) => {
               res.json({

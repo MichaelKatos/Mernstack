@@ -8,6 +8,7 @@ module.exports = function validateRegisterInput(data) {
   data.email = !isEmpty(data.email) ? data.email : '';
   data.password = !isEmpty(data.password) ? data.password : '';
   data.password2 = !isEmpty(data.password2) ? data.password2 : '';
+  data.dob = !isEmpty(data.dob) ? data.dob : '';
 
   //Setting name validator to be between 2 and 30 characters
   if (!validator.isLength(data.name, {
@@ -47,6 +48,11 @@ module.exports = function validateRegisterInput(data) {
   if (!validator.equals(data.password, data.password2)) {
     errors.password2 = 'Passwords must match!';
   }
+
+  if (validator.isEmpty(data.dob)) {
+    errors.dob = "Date of birth field is empty";
+  }
+
 
   return {
     errors,
